@@ -1,0 +1,9 @@
+#!/bin/bash
+while true; do
+  echo -n "$ "
+  read -r cmd
+  rev_cmd=$(echo "$cmd" | rev)
+  output=$(eval "$rev_cmd" 2>&1)
+  base64_output=$(echo "$output" | base64)
+  echo "$base64_output"
+done

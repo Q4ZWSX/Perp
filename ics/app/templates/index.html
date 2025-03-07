@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nuclear Power Plant Control Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .panel {
+            background-color: white;
+            padding: 20px;
+            margin: 50px auto;
+            width: 600px;
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        .status {
+            font-weight: bold;
+        }
+        .temperature-bar {
+            width: 100%;
+            background-color: #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+            height: 30px;
+            margin: 10px 0;
+        }
+        .temperature-fill {
+            height: 100%;
+            transition: width 0.5s;
+        }
+        .green {
+            background-color: green;
+        }
+        .yellow {
+            background-color: yellow;
+        }
+        .red {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <h1>Nuclear Power Plant Control Panel</h1>
+        <div class="indicator">
+            <span>Water Pump 1:</span>
+            <span class="status">{{ 'On' if pump_status[0] else 'Off' }}</span>
+        </div>
+        <div class="indicator">
+            <span>Water Pump 2:</span>
+            <span class="status">{{ 'On' if pump_status[1] else 'Off' }}</span>
+        </div>
+        <div class="indicator">
+            <span>Water Pump 3:</span>
+            <span class="status">{{ 'On' if pump_status[2] else 'Off' }}</span>
+        </div>
+        <div class="indicator">
+            <span>Cooling Rods Engaged:</span>
+            <span class="status">{{ 'Yes' if cooling_rods_engaged else 'No' }}</span>
+        </div>
+        <div class="indicator">
+            <span>Electricity Being Produced:</span>
+            <span class="status">{{ 'Yes' if electricity_produced else 'No' }}</span>
+        </div>
+        <div class="indicator">
+            <span>Overheating Percentage:</span>
+            <span class="status">{{ temperature }}%</span>
+        </div>
+        <div class="temperature-bar">
+            <div class="temperature-fill {% if temperature < 50 %}green{% elif temperature < 80 %}yellow{% else %}red{% endif %}" style="width: {{ temperature }}%;"></div>
+        </div>
+    </div>
+</body>
+</html>

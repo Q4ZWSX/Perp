@@ -1,0 +1,67 @@
+version: '3.8'
+services:
+  jumpbox:
+    build:
+      context: ./jumpbox
+    container_name: jumpbox
+    hostname: 'Jumpbox'
+    networks:
+      mynet:
+        ipv4_address: 172.20.0.10
+    ports:
+      - "2222:22"  # Map host port 2222 to container port 22
+  linux_machine_1:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1
+    hostname: 'Linux Machine 1'
+    networks:
+      mynet:
+        ipv4_address: 172.20.0.11
+  linux_machine_2:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2
+    hostname: 'Linux Machine 2'
+    networks:
+      mynet:
+        ipv4_address: 172.20.0.12
+  linux_machine_3:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3
+    hostname: 'Linux Machine 3'
+    networks:
+      mynet:
+        ipv4_address: 172.20.0.13
+  ics:
+    build:
+      context: ./ics
+    container_name: ics
+    hostname: 'ICS'
+    networks:
+      mynet:
+        ipv4_address: 172.20.0.14
+  funky:
+    build:
+      context: ./funky
+    container_name: funky
+    hostname: 'FUNKY'
+    networks:
+      mynet:
+        ipv4_address: 172.20.0.15
+  scoring:
+    build:
+      context: ./scoring
+    container_name: scoring
+    hostname: 'SCOREBOARD'
+    networks:
+      mynet:
+        ipv4_address: 172.20.0.16
+networks:
+  mynet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
