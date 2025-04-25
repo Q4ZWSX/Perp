@@ -1,0 +1,204 @@
+Listen 80
+<VirtualHost *:80>
+    ServerName scoreboard
+    WSGIDaemonProcess app user=www-data group=www-data threads=5
+    WSGIScriptAlias / /app/app.wsgi
+    <Directory /app>
+        WSGIProcessGroup app
+        WSGIApplicationGroup %{GLOBAL}
+        Require all granted
+    </Directory>
+</VirtualHost>
+import sqlite3
+from flask import Flask, g, render_template, request
+
+app = Flask(__name__, template_folder='/app/templates')
+
+# Database connection
+def get_db():
+    if 'db' not in g:
+        g.db = sqlite3.connect('/app/database.db')
+        g.db.row_factory = sqlite3.Row
+    return g.db
+
+@app.teardown_appcontext
+def close_db(error):
+    if hasattr(g, 'db'):
+        g.db.close()
+
+# Initialize database
+def init_db():
+    db = get_db()
+    db.execute('''CREATE TABLE IF NOT EXISTS teams
+                  (team_name TEXT PRIMARY KEY, password TEXT, points INTEGER)''')
+    db.execute('''CREATE TABLE IF NOT EXISTS flags
+                  (machine TEXT, location TEXT, flag TEXT,
+                   PRIMARY KEY (machine, location))''')
+    machines = ['funky', 'linux_machine_1', 'linux_machine_2', 'linux_machine_3']
+    locations = ['/tmp/flag.txt', '/root/flag.txt']
+    for machine in machines:
+        for location in locations:
+            db.execute("INSERT OR IGNORE INTO flags (machine, location, flag) VALUES (?, ?, '')", (machine, location))
+    db.commit()
+
+# Routes
+@app.route('/')
+def home():
+    return "Welcome to the Scoreboard!"
+
+@app.route('/scoreboard')
+def scoreboard():
+    db = get_db()
+    teams = db.execute('SELECT team_name, points FROM teams ORDER BY points DESC').fetchall()
+    return render_template('scoreboard.html', teams=teams)
+
+@app.route('/submit', methods=['GET', 'POST'])
+def submit():
+    if request.method == 'POST':
+        team_name = request.form['team_name']
+        password = request.form['password']
+        flag = request.form['flag']
+        db = get_db()
+        team = db.execute('SELECT * FROM teams WHERE team_name = ? AND password = ?', (team_name, password)).fetchone()
+        if team:
+            valid_flag = db.execute('SELECT * FROM flags WHERE flag = ?', (flag,)).fetchone()
+            if valid_flag:
+                db.execute('UPDATE teams SET points = points + 100 WHERE team_name = ?', (team_name,))
+                db.commit()
+                return 'Flag submitted successfully!'
+            return 'Invalid flag.'
+        return 'Invalid team name or password.'
+    db = get_db()
+    teams = db.execute('SELECT team_name FROM teams').fetchall()
+    return render_template('submit.html', teams=teams)
+
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    if request.method == 'POST':
+        team_name = request.form['team_name']
+        password = request.form['password']
+        db = get_db()
+        db.execute('INSERT INTO teams (team_name, password, points) VALUES (?, ?, 0)', (team_name, password))
+        db.commit()
+        return 'Team added successfully!'
+    return render_template('admin.html')
+
+# Initialize database on startup within application context
+with app.app_context():
+    init_db()
+
+# Optional: Add this if you intend to run the app directly
+if __name__ == '__main__':
+    app.run()import sys
+sys.path.insert(0, '/app')
+from app import app as application
+*/10 * * * * root /app/scripts/update_flags.sh
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# Install required packages
+RUN apt-get update && apt-get install -y \
+    apache2 \
+    libapache2-mod-wsgi-py3 \
+    python3 \
+    python3-pip \
+    sqlite3 \
+    openssh-client \
+    sshpass \
+    cron \
+    openssl
+
+# Install Flask
+RUN pip3 install flask
+
+# Set working directory
+WORKDIR /app
+
+# Copy application files
+COPY app.py .
+COPY templates templates
+COPY scripts scripts
+COPY update_flags.py .
+COPY cron_update_flags /etc/cron.d/update_flags
+COPY apache.conf /etc/apache2/sites-available/000-default.conf
+COPY start.sh /start.sh
+
+# Set permissions
+RUN chmod +x scripts/update_flags.sh
+RUN chmod +x /start.sh
+RUN chmod 0644 /etc/cron.d/update_flags
+
+RUN sed -i '/^Listen /d' /etc/apache2/sites-available/000-default.conf
+# Enable Apache WSGI module
+RUN a2enmod wsgi
+EXPOSE 5000
+
+# Start the container with the start script
+CMD ["/start.sh"]
+#!/bin/bash
+# Create the runtime directory if it doesn’t exist
+mkdir -p /var/run/apache2
+
+# Source the Apache environment variables
+. /etc/apache2/envvars
+
+# Start cron if required
+cron
+
+# Optional: Brief delay to ensure services initialize
+sleep 1
+
+# Start Apache in the foreground
+exec apache2 -DFOREGROUND
+import sqlite3
+import sys
+
+machine = sys.argv[1]
+flag1 = sys.argv[2]
+flag2 = sys.argv[3]
+
+conn = sqlite3.connect('/app/database.db')
+cursor = conn.cursor()
+cursor.execute("UPDATE flags SET flag = ? WHERE machine = ? AND location = '/tmp/flag.txt'", (flag1, machine))
+cursor.execute("UPDATE flags SET flag = ? WHERE machine = ? AND location = '/root/flag.txt'", (flag2, machine))
+conn.commit()
+conn.close()
+#!/bin/bash
+for machine in funky linux_machine_1 linux_machine_2 linux_machine_3; do
+  flag1=$(openssl rand -hex 16)
+  flag2=$(openssl rand -hex 16)
+  sshpass -p 'youshouldnthavethispassword' ssh -o StrictHostKeyChecking=no ansible@$machine "echo $flag1 > /tmp/flag.txt"
+  sshpass -p 'youshouldnthavethispassword' ssh -o StrictHostKeyChecking=no ansible@$machine "echo 'youshouldnthavethispassword' | sudo -S sh -c 'echo $flag2 > /root/flag.txt'"
+  python3 /app/update_flags.py $machine "$flag1" "$flag2"
+done
+<h1>Admin - Add Team</h1>
+<form method="POST">
+    <label for="team_name">Team Name:</label>
+    <input type="text" name="team_name"><br>
+    <label for="password">Password:</label>
+    <input type="text" name="password"><br>
+    <input type="submit" value="Add Team">
+</form>
+<h1>Scoreboard</h1>
+<table>
+    <tr><th>Team</th><th>Points</th></tr>
+    {% for team in teams %}
+    <tr><td>{{ team['team_name'] }}</td><td>{{ team['points'] }}</td></tr>
+    {% endfor %}
+</table>
+<h1>Submit Flag</h1>
+<form method="POST">
+    <label for="team_name">Team:</label>
+    <select name="team_name">
+        {% for team in teams %}
+        <option value="{{ team['team_name'] }}">{{ team['team_name'] }}</option>
+        {% endfor %}
+    </select><br>
+    <label for="password">Password:</label>
+    <input type="password" name="password"><br>
+    <label for="flag">Flag:</label>
+    <input type="text" name="flag"><br>
+    <input type="submit" value="Submit">
+</form>

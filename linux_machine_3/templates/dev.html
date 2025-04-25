@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Developer Tools</h2>
+    <form method="post">
+        <label for="address">Enter IP Address to Ping:</label><br>
+        <input type="text" name="address" id="address"><br><br>
+        <input type="submit" value="Ping">
+    </form>
+    {% if output %}
+        <h3>Ping Output:</h3>
+        <pre>{{ output }}</pre>
+    {% endif %}
+{% endblock %}

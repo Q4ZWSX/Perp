@@ -1,0 +1,1 @@
+*/10 * * * * root /app/scripts/update_flags.sh

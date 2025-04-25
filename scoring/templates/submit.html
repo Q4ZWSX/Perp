@@ -1,0 +1,14 @@
+<h1>Submit Flag</h1>
+<form method="POST">
+    <label for="team_name">Team:</label>
+    <select name="team_name">
+        {% for team in teams %}
+        <option value="{{ team['team_name'] }}">{{ team['team_name'] }}</option>
+        {% endfor %}
+    </select><br>
+    <label for="password">Password:</label>
+    <input type="password" name="password"><br>
+    <label for="flag">Flag:</label>
+    <input type="text" name="flag"><br>
+    <input type="submit" value="Submit">
+</form>

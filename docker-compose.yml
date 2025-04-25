@@ -1,0 +1,1008 @@
+version: '3.8'
+services:
+  jumpbox:
+    build:
+      context: ./jumpbox
+    container_name: jumpbox
+    hostname: 'Jumpbox'
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    sysctls:
+      - net.ipv4.ip_forward=1
+    networks:
+      mynet0:
+        ipv4_address: 172.30.0.10
+      mynet1:
+        ipv4_address: 172.30.1.10
+    ports:
+      - "2222:22"    # Added SSH mapping
+      - "1194:1194/udp"
+      - "8000:80"
+  scoring:
+    build:
+      context: ./scoring
+    container_name: scoring
+    hostname: 'SCOREBOARD'
+    networks:
+      mynet0:
+        ipv4_address: 172.30.0.16
+      mynet1:
+        ipv4_address: 172.30.1.16
+  linux_machine_1_team1:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team1
+    hostname: 'Linux Machine 1 Team 1'
+    environment:
+      - TEAMLOGIN_PASSWORD=Regallyfalsifyquintet
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.11
+  linux_machine_2_team1:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team1
+    hostname: 'Linux Machine 2 Team 1'
+    environment:
+      - TEAMLOGIN_PASSWORD=Regallyfalsifyquintet
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.12
+  linux_machine_3_team1:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team1
+    hostname: 'Linux Machine 3 Team 1'
+    environment:
+      - TEAMLOGIN_PASSWORD=Regallyfalsifyquintet
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.13
+  funky_team1:
+    build:
+      context: ./funky
+    container_name: funky_team1
+    hostname: 'FUNKY Team 1'
+    environment:
+      - TEAMLOGIN_PASSWORD=Regallyfalsifyquintet
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.15
+
+  # Team 2
+  linux_machine_1_team2:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team2
+    hostname: 'Linux Machine 1 Team 2'
+    environment:
+      - TEAMLOGIN_PASSWORD=Patientmaritalsanction
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.21
+  linux_machine_2_team2:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team2
+    hostname: 'Linux Machine 2 Team 2'
+    environment:
+      - TEAMLOGIN_PASSWORD=Patientmaritalsanction
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.22
+  linux_machine_3_team2:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team2
+    hostname: 'Linux Machine 3 Team 2'
+    environment:
+      - TEAMLOGIN_PASSWORD=Patientmaritalsanction
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.23
+  funky_team2:
+    build:
+      context: ./funky
+    container_name: funky_team2
+    hostname: 'FUNKY Team 2'
+    environment:
+      - TEAMLOGIN_PASSWORD=Patientmaritalsanction
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.25
+
+  # Team 3
+  linux_machine_1_team3:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team3
+    hostname: 'Linux Machine 1 Team 3'
+    environment:
+      - TEAMLOGIN_PASSWORD=Rubyhuddlegalore
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.31
+  linux_machine_2_team3:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team3
+    hostname: 'Linux Machine 2 Team 3'
+    environment:
+      - TEAMLOGIN_PASSWORD=Rubyhuddlegalore
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.32
+  linux_machine_3_team3:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team3
+    hostname: 'Linux Machine 3 Team 3'
+    environment:
+      - TEAMLOGIN_PASSWORD=Rubyhuddlegalore
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.33
+  funky_team3:
+    build:
+      context: ./funky
+    container_name: funky_team3
+    hostname: 'FUNKY Team 3'
+    environment:
+      - TEAMLOGIN_PASSWORD=Rubyhuddlegalore
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.35
+
+  # Team 4
+  linux_machine_1_team4:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team4
+    hostname: 'Linux Machine 1 Team 4'
+    environment:
+      - TEAMLOGIN_PASSWORD=Grudgelaundryprocedure
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.41
+  linux_machine_2_team4:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team4
+    hostname: 'Linux Machine 2 Team 4'
+    environment:
+      - TEAMLOGIN_PASSWORD=Grudgelaundryprocedure
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.42
+  linux_machine_3_team4:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team4
+    hostname: 'Linux Machine 3 Team 4'
+    environment:
+      - TEAMLOGIN_PASSWORD=Grudgelaundryprocedure
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.43
+  funky_team4:
+    build:
+      context: ./funky
+    container_name: funky_team4
+    hostname: 'FUNKY Team 4'
+    environment:
+      - TEAMLOGIN_PASSWORD=Grudgelaundryprocedure
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.45
+
+  # Team 5
+  linux_machine_1_team5:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team5
+    hostname: 'Linux Machine 1 Team 5'
+    environment:
+      - TEAMLOGIN_PASSWORD=Omissioncaddyfiscally
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.51
+  linux_machine_2_team5:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team5
+    hostname: 'Linux Machine 2 Team 5'
+    environment:
+      - TEAMLOGIN_PASSWORD=Omissioncaddyfiscally
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.52
+  linux_machine_3_team5:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team5
+    hostname: 'Linux Machine 3 Team 5'
+    environment:
+      - TEAMLOGIN_PASSWORD=Omissioncaddyfiscally
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.53
+  funky_team5:
+    build:
+      context: ./funky
+    container_name: funky_team5
+    hostname: 'FUNKY Team 5'
+    environment:
+      - TEAMLOGIN_PASSWORD=Omissioncaddyfiscally
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.55
+
+  # Team 6
+  linux_machine_1_team6:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team6
+    hostname: 'Linux Machine 1 Team 6'
+    environment:
+      - TEAMLOGIN_PASSWORD=Wafflechastisescrubbed
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.61
+  linux_machine_2_team6:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team6
+    hostname: 'Linux Machine 2 Team 6'
+    environment:
+      - TEAMLOGIN_PASSWORD=Wafflechastisescrubbed
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.62
+  linux_machine_3_team6:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team6
+    hostname: 'Linux Machine 3 Team 6'
+    environment:
+      - TEAMLOGIN_PASSWORD=Wafflechastisescrubbed
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.63
+  funky_team6:
+    build:
+      context: ./funky
+    container_name: funky_team6
+    hostname: 'FUNKY Team 6'
+    environment:
+      - TEAMLOGIN_PASSWORD=Wafflechastisescrubbed
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.65
+
+  # Team 7
+  linux_machine_1_team7:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team7
+    hostname: 'Linux Machine 1 Team 7'
+    environment:
+      - TEAMLOGIN_PASSWORD=Chillhumpedbribe
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.71
+  linux_machine_2_team7:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team7
+    hostname: 'Linux Machine 2 Team 7'
+    environment:
+      - TEAMLOGIN_PASSWORD=Chillhumpedbribe
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.72
+  linux_machine_3_team7:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team7
+    hostname: 'Linux Machine 3 Team 7'
+    environment:
+      - TEAMLOGIN_PASSWORD=Chillhumpedbribe
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.73
+  funky_team7:
+    build:
+      context: ./funky
+    container_name: funky_team7
+    hostname: 'FUNKY Team 7'
+    environment:
+      - TEAMLOGIN_PASSWORD=Chillhumpedbribe
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.75
+
+  # Team 8
+  linux_machine_1_team8:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team8
+    hostname: 'Linux Machine 1 Team 8'
+    environment:
+      - TEAMLOGIN_PASSWORD=Gummingconduitwhiny
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.81
+  linux_machine_2_team8:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team8
+    hostname: 'Linux Machine 2 Team 8'
+    environment:
+      - TEAMLOGIN_PASSWORD=Gummingconduitwhiny
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.82
+  linux_machine_3_team8:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team8
+    hostname: 'Linux Machine 3 Team 8'
+    environment:
+      - TEAMLOGIN_PASSWORD=Gummingconduitwhiny
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.83
+  funky_team8:
+    build:
+      context: ./funky
+    container_name: funky_team8
+    hostname: 'FUNKY Team 8'
+    environment:
+      - TEAMLOGIN_PASSWORD=Gummingconduitwhiny
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.85
+
+  # Team 9
+  linux_machine_1_team9:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team9
+    hostname: 'Linux Machine 1 Team 9'
+    environment:
+      - TEAMLOGIN_PASSWORD=Crablikeprincesscrunchy
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.91
+  linux_machine_2_team9:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team9
+    hostname: 'Linux Machine 2 Team 9'
+    environment:
+      - TEAMLOGIN_PASSWORD=Crablikeprincesscrunchy
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.92
+  linux_machine_3_team9:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team9
+    hostname: 'Linux Machine 3 Team 9'
+    environment:
+      - TEAMLOGIN_PASSWORD=Crablikeprincesscrunchy
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.93
+  funky_team9:
+    build:
+      context: ./funky
+    container_name: funky_team9
+    hostname: 'FUNKY Team 9'
+    environment:
+      - TEAMLOGIN_PASSWORD=Crablikeprincesscrunchy
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.95
+
+  # Team 10
+  linux_machine_1_team10:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team10
+    hostname: 'Linux Machine 1 Team 10'
+    environment:
+      - TEAMLOGIN_PASSWORD=Episodemouseimprudent
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.101
+  linux_machine_2_team10:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team10
+    hostname: 'Linux Machine 2 Team 10'
+    environment:
+      - TEAMLOGIN_PASSWORD=Episodemouseimprudent
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.102
+  linux_machine_3_team10:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team10
+    hostname: 'Linux Machine 3 Team 10'
+    environment:
+      - TEAMLOGIN_PASSWORD=Episodemouseimprudent
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.103
+  funky_team10:
+    build:
+      context: ./funky
+    container_name: funky_team10
+    hostname: 'FUNKY Team 10'
+    environment:
+      - TEAMLOGIN_PASSWORD=Episodemouseimprudent
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.105
+
+  # Team 11
+  linux_machine_1_team11:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team11
+    hostname: 'Linux Machine 1 Team 11'
+    environment:
+      - TEAMLOGIN_PASSWORD=Evaluatecatchingsensually
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.111
+  linux_machine_2_team11:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team11
+    hostname: 'Linux Machine 2 Team 11'
+    environment:
+      - TEAMLOGIN_PASSWORD=Evaluatecatchingsensually
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.112
+  linux_machine_3_team11:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team11
+    hostname: 'Linux Machine 3 Team 11'
+    environment:
+      - TEAMLOGIN_PASSWORD=Evaluatecatchingsensually
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.113
+  funky_team11:
+    build:
+      context: ./funky
+    container_name: funky_team11
+    hostname: 'FUNKY Team 11'
+    environment:
+      - TEAMLOGIN_PASSWORD=Evaluatecatchingsensually
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.115
+
+  # Team 12
+  linux_machine_1_team12:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team12
+    hostname: 'Linux Machine 1 Team 12'
+    environment:
+      - TEAMLOGIN_PASSWORD=Untrimmedgrufflyusage
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.121
+  linux_machine_2_team12:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team12
+    hostname: 'Linux Machine 2 Team 12'
+    environment:
+      - TEAMLOGIN_PASSWORD=Untrimmedgrufflyusage
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.122
+  linux_machine_3_team12:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team12
+    hostname: 'Linux Machine 3 Team 12'
+    environment:
+      - TEAMLOGIN_PASSWORD=Untrimmedgrufflyusage
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.123
+  funky_team12:
+    build:
+      context: ./funky
+    container_name: funky_team12
+    hostname: 'FUNKY Team 12'
+    environment:
+      - TEAMLOGIN_PASSWORD=Untrimmedgrufflyusage
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.125
+
+  # Team 13
+  linux_machine_1_team13:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team13
+    hostname: 'Linux Machine 1 Team 13'
+    environment:
+      - TEAMLOGIN_PASSWORD=Theologywildlypadlock
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.131
+  linux_machine_2_team13:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team13
+    hostname: 'Linux Machine 2 Team 13'
+    environment:
+      - TEAMLOGIN_PASSWORD=Theologywildlypadlock
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.132
+  linux_machine_3_team13:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team13
+    hostname: 'Linux Machine 3 Team 13'
+    environment:
+      - TEAMLOGIN_PASSWORD=Theologywildlypadlock
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.133
+  funky_team13:
+    build:
+      context: ./funky
+    container_name: funky_team13
+    hostname: 'FUNKY Team 13'
+    environment:
+      - TEAMLOGIN_PASSWORD=Theologywildlypadlock
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.135
+
+  # Team 14
+  linux_machine_1_team14:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team14
+    hostname: 'Linux Machine 1 Team 14'
+    environment:
+      - TEAMLOGIN_PASSWORD=Retakegearmustiness
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.141
+  linux_machine_2_team14:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team14
+    hostname: 'Linux Machine 2 Team 14'
+    environment:
+      - TEAMLOGIN_PASSWORD=Retakegearmustiness
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.142
+  linux_machine_3_team14:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team14
+    hostname: 'Linux Machine 3 Team 14'
+    environment:
+      - TEAMLOGIN_PASSWORD=Retakegearmustiness
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.143
+  funky_team14:
+    build:
+      context: ./funky
+    container_name: funky_team14
+    hostname: 'FUNKY Team 14'
+    environment:
+      - TEAMLOGIN_PASSWORD=Retakegearmustiness
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.145
+
+  # Team 15
+  linux_machine_1_team15:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team15
+    hostname: 'Linux Machine 1 Team 15'
+    environment:
+      - TEAMLOGIN_PASSWORD=Pastydegreelash
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.151
+  linux_machine_2_team15:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team15
+    hostname: 'Linux Machine 2 Team 15'
+    environment:
+      - TEAMLOGIN_PASSWORD=Pastydegreelash
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.152
+  linux_machine_3_team15:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team15
+    hostname: 'Linux Machine 3 Team 15'
+    environment:
+      - TEAMLOGIN_PASSWORD=Pastydegreelash
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.153
+  funky_team15:
+    build:
+      context: ./funky
+    container_name: funky_team15
+    hostname: 'FUNKY Team 15'
+    environment:
+      - TEAMLOGIN_PASSWORD=Pastydegreelash
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.155
+
+  # Team 16
+  linux_machine_1_team16:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team16
+    hostname: 'Linux Machine 1 Team 16'
+    environment:
+      - TEAMLOGIN_PASSWORD=Unsaltedeconomistjasmine
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.161
+  linux_machine_2_team16:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team16
+    hostname: 'Linux Machine 2 Team 16'
+    environment:
+      - TEAMLOGIN_PASSWORD=Unsaltedeconomistjasmine
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.162
+  linux_machine_3_team16:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team16
+    hostname: 'Linux Machine 3 Team 16'
+    environment:
+      - TEAMLOGIN_PASSWORD=Unsaltedeconomistjasmine
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.163
+  funky_team16:
+    build:
+      context: ./funky
+    container_name: funky_team16
+    hostname: 'FUNKY Team 16'
+    environment:
+      - TEAMLOGIN_PASSWORD=Unsaltedeconomistjasmine
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.165
+
+  # Team 17
+  linux_machine_1_team17:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team17
+    hostname: 'Linux Machine 1 Team 17'
+    environment:
+      - TEAMLOGIN_PASSWORD=Wackinesscabdriverretrieval
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.171
+  linux_machine_2_team17:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team17
+    hostname: 'Linux Machine 2 Team 17'
+    environment:
+      - TEAMLOGIN_PASSWORD=Wackinesscabdriverretrieval
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.172
+  linux_machine_3_team17:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team17
+    hostname: 'Linux Machine 3 Team 17'
+    environment:
+      - TEAMLOGIN_PASSWORD=Wackinesscabdriverretrieval
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.173
+  funky_team17:
+    build:
+      context: ./funky
+    container_name: funky_team17
+    hostname: 'FUNKY Team 17'
+    environment:
+      - TEAMLOGIN_PASSWORD=Wackinesscabdriverretrieval
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.175
+
+  # Team 18
+  linux_machine_1_team18:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team18
+    hostname: 'Linux Machine 1 Team 18'
+    environment:
+      - TEAMLOGIN_PASSWORD=Subsoilsantaobserver
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.181
+  linux_machine_2_team18:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team18
+    hostname: 'Linux Machine 2 Team 18'
+    environment:
+      - TEAMLOGIN_PASSWORD=Subsoilsantaobserver
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.182
+  linux_machine_3_team18:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team18
+    hostname: 'Linux Machine 3 Team 18'
+    environment:
+      - TEAMLOGIN_PASSWORD=Subsoilsantaobserver
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.183
+  funky_team18:
+    build:
+      context: ./funky
+    container_name: funky_team18
+    hostname: 'FUNKY Team 18'
+    environment:
+      - TEAMLOGIN_PASSWORD=Subsoilsantaobserver
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.185
+
+  # Team 19
+  linux_machine_1_team19:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team19
+    hostname: 'Linux Machine 1 Team 19'
+    environment:
+      - TEAMLOGIN_PASSWORD=Spottedvenusglove
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.191
+  linux_machine_2_team19:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team19
+    hostname: 'Linux Machine 2 Team 19'
+    environment:
+      - TEAMLOGIN_PASSWORD=Spottedvenusglove
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.192
+  linux_machine_3_team19:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team19
+    hostname: 'Linux Machine 3 Team 19'
+    environment:
+      - TEAMLOGIN_PASSWORD=Spottedvenusglove
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.193
+  funky_team19:
+    build:
+      context: ./funky
+    container_name: funky_team19
+    hostname: 'FUNKY Team 19'
+    environment:
+      - TEAMLOGIN_PASSWORD=Spottedvenusglove
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.195
+
+  # Team 20
+  linux_machine_1_team20:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team20
+    hostname: 'Linux Machine 1 Team 20'
+    environment:
+      - TEAMLOGIN_PASSWORD=Boraxproudstrenuous
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.201
+  linux_machine_2_team20:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team20
+    hostname: 'Linux Machine 2 Team 20'
+    environment:
+      - TEAMLOGIN_PASSWORD=Boraxproudstrenuous
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.202
+  linux_machine_3_team20:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team20
+    hostname: 'Linux Machine 3 Team 20'
+    environment:
+      - TEAMLOGIN_PASSWORD=Boraxproudstrenuous
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.203
+  funky_team20:
+    build:
+      context: ./funky
+    container_name: funky_team20
+    hostname: 'FUNKY Team 20'
+    environment:
+      - TEAMLOGIN_PASSWORD=Boraxproudstrenuous
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.205
+
+  # Team 21
+  linux_machine_1_team21:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team21
+    hostname: 'Linux Machine 1 Team 21'
+    environment:
+      - TEAMLOGIN_PASSWORD=Debunkgeekexpansive
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.211
+  linux_machine_2_team21:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team21
+    hostname: 'Linux Machine 2 Team 21'
+    environment:
+      - TEAMLOGIN_PASSWORD=Debunkgeekexpansive
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.212
+  linux_machine_3_team21:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team21
+    hostname: 'Linux Machine 3 Team 21'
+    environment:
+      - TEAMLOGIN_PASSWORD=Debunkgeekexpansive
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.213
+  funky_team21:
+    build:
+      context: ./funky
+    container_name: funky_team21
+    hostname: 'FUNKY Team 21'
+    environment:
+      - TEAMLOGIN_PASSWORD=Debunkgeekexpansive
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.215
+
+  # Team 22
+  linux_machine_1_team22:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team22
+    hostname: 'Linux Machine 1 Team 22'
+    environment:
+      - TEAMLOGIN_PASSWORD=Prowessunlockingmuppet
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.221
+  linux_machine_2_team22:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team22
+    hostname: 'Linux Machine 2 Team 22'
+    environment:
+      - TEAMLOGIN_PASSWORD=Prowessunlockingmuppet
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.222
+  linux_machine_3_team22:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team22
+    hostname: 'Linux Machine 3 Team 22'
+    environment:
+      - TEAMLOGIN_PASSWORD=Prowessunlockingmuppet
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.223
+  funky_team22:
+    build:
+      context: ./funky
+    container_name: funky_team22
+    hostname: 'FUNKY Team 22'
+    environment:
+      - TEAMLOGIN_PASSWORD=Prowessunlockingmuppet
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.225
+
+  # Team 23
+  linux_machine_1_team23:
+    build:
+      context: ./linux_machine_1
+    container_name: linux_machine_1_team23
+    hostname: 'Linux Machine 1 Team 23'
+    environment:
+      - TEAMLOGIN_PASSWORD=Energetichassledefiance
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.231
+  linux_machine_2_team23:
+    build:
+      context: ./linux_machine_2
+    container_name: linux_machine_2_team23
+    hostname: 'Linux Machine 2 Team 23'
+    environment:
+      - TEAMLOGIN_PASSWORD=Energetichassledefiance
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.232
+  linux_machine_3_team23:
+    build:
+      context: ./linux_machine_3
+    container_name: linux_machine_3_team23
+    hostname: 'Linux Machine 3 Team 23'
+    environment:
+      - TEAMLOGIN_PASSWORD=Energetichassledefiance
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.233
+  funky_team23:
+    build:
+      context: ./funky
+    container_name: funky_team23
+    hostname: 'FUNKY Team 23'
+    environment:
+      - TEAMLOGIN_PASSWORD=Energetichassledefiance
+    networks:
+      mynet1:
+        ipv4_address: 172.30.1.235
+
+networks:
+  mynet0:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+  mynet1:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.1.0/24
