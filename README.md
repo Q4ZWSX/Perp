@@ -1,6 +1,4 @@
-# Perp
-
-## Welcome to Perp, a easy to use purple team simulation framework
+# Welcome to Perp, a easy to use purple team simulation framework
 
 ## Some features
  - Easy to use (set up time sub 10 minutes as seen in [this](./FinalVideo.mp4) video
