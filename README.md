@@ -1,3 +1,3 @@
 # Perp
 
-Read more [here](./SetupInstructions.md) # It works!
+[Setup Instructions](./SetupInstructions.md)
