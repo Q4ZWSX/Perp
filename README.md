@@ -1,4 +1,4 @@
-# Perp, a easy to use purple team competition framework
+# Perp, An Easy To Use Purple Team Competition Framework
 
 ## Some features
  - Easy to use (set up time sub 10 minutes as seen in [this](./FinalVideo.mp4) video
