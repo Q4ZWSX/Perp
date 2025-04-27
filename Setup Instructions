@@ -1,0 +1,13 @@
+Create a large ec2 instance
+Ssh into said instance
+Install unzip
+Install magic-wormhole
+Install docker compose from this link https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+Wormhole over the zip
+Unzip the zip
+Run the command “docker compose up –build”
+Wait for it to finish then go to <IP of the EC2>:8000
+Edit this file to have the correct ip of the ec2 instance
+Connect to the ovpn and go to 172.30.0.16:5000/admin
+Add each team and a corresponding password (below)
+Distribute the ovpn and passwords along with the predetermined passwords for teams below
